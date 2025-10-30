@@ -45,12 +45,12 @@ export class SdkRunComponent implements OnDestroy {
     this.result = null;
     this.error = "";
     this.isCapturing = true;
-    const allowed = await this.ensureCameraPermission();
-    if (!allowed) {
-      this.disabled = false;
-      this.isCapturing = false;
-      return;
-    }
+    // const allowed = await this.ensureCameraPermission();
+    // if (!allowed) {
+    //   this.disabled = false;
+    //   this.isCapturing = false;
+    //   return;
+    // }
     // Flujo secuencial: initialize -> capture, sin runOutsideAngular
     const options: SdkOptionsType = {
       // detectionModes: [CardDetectionMode.FRONT, CardDetectionMode.BACK],
