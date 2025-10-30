@@ -94,6 +94,31 @@ export class SdkRunComponent implements OnDestroy {
       useFlash: false,
       debug: false,
       skipSupportCheck: false,
+      events: {
+        onCardFaceCaptureSuccess: (face: string) => {
+          return new Promise<void>((resolve) => {
+            const banner = document.createElement("div");
+            banner.style.position = "fixed";
+            banner.style.top = "20px";
+            banner.style.left = "50%";
+            banner.style.transform = "translateX(-50%)";
+            banner.style.zIndex = "999999";
+            banner.style.padding = "10px 16px";
+            banner.style.background = "#323232";
+            banner.style.color = "#fff";
+            banner.style.borderRadius = "6px";
+            banner.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
+            banner.textContent = `Captured ${face} side`;
+            document.body.appendChild(banner);
+            setTimeout(() => {
+              try {
+                document.body.removeChild(banner);
+              } catch {}
+              resolve();
+            }, 3000);
+          });
+        },
+      },
     };
 
     const sdk = new CardOcrSDK(options);
