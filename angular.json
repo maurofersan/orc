@@ -1,0 +1,262 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "cache": {
+      "enabled": false
+    },
+    "analytics": false
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "OCRDemoApp": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "./webpack.config.js",
+              "mergeStrategies": {
+                "externals": "replace"
+              }
+            },
+            "outputPath": "dist/OCRDemoApp",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.app.json",
+            "assets": [],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/assets/css/custom_theme.scss",
+              {
+                "inject": false,
+                "bundleName": "ocr-styles",
+                "input": "src/styles.css"
+              }
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./node_modules"
+              ]
+            },
+            "allowedCommonJsDependencies": [
+              "@identy/identy-ocr", "seedrandom", "long", "jquery", "@identy/identy-common"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "index": {
+                "input": "src/index-base.html",
+                "output": "index.html"
+              },
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": false,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "12mb"
+                }
+              ],
+              "assets": [
+                "src/favicon.ico",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/images/",
+                  "output": "./assets/images/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/@identy/identy-ocr/dist/assets",
+                  "output": "./assets/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/@identy/identy-common/dist/assets",
+                  "output": "./assets/"
+                }
+              ]
+            },
+            "development": {
+              "buildOptimizer": true,
+              "optimization": false,
+              "vendorChunk": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": false,
+              "assets": [
+                "src/favicon.ico",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/images/",
+                  "output": "./assets/images/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/@identy/identy-ocr/dist/assets",
+                  "output": "./assets/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/@identy/identy-common/dist/assets",
+                  "output": "./assets/"
+                }
+              ]
+            },
+            "tests": {
+              "buildOptimizer": true,
+              "optimization": false,
+              "vendorChunk": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": false,
+              "assets": [
+                "src/favicon.ico",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/images/",
+                  "output": "./assets/images/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/@identy/identy-ocr/dist/assets",
+                  "output": "./assets/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/@identy/identy-common/dist/assets",
+                  "output": "./assets/"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "serve": {
+          "builder": "@angular-builders/custom-webpack:dev-server",
+          "options": {
+            "browserTarget": "OCRDemoApp:build",
+            "host": "0.0.0.0",
+            "headers": {
+              "Service-Worker-Allowed": "/"
+            }
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "OCRDemoApp:build:production",
+              "headers": {
+                "Cross-Origin-Opener-Policy": "same-origin",
+                "Cross-Origin-Embedder-Policy": "require-corp"
+              }
+            },
+            "development": {
+              "browserTarget": "OCRDemoApp:build:development",
+              "headers": {
+                "Cross-Origin-Opener-Policy": "same-origin",
+                "Cross-Origin-Embedder-Policy": "require-corp"
+              }
+            },
+            "tests": {
+              "browserTarget": "OCRDemoApp:build:tests"
+            }
+
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "OCRDemoApp:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.spec.json",
+            "karmaConfig": "src/karma.conf.js",
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "OCRDemoApp-e2e": {
+      "root": "e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "OCRDemoApp:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "OCRDemoApp:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "OCRDemoApp"
+}

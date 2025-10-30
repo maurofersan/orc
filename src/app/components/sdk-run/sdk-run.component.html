@@ -1,0 +1,20 @@
+<div class="run-section" style="text-align: center; padding: 16px">
+  <button
+    class="capture-btn"
+    (click)="startCameraCapture()"
+    [disabled]="disabled || isCapturing"
+  >
+    CAMERA
+  </button>
+
+  <!-- SDK monta su propio diálogo en body; no se requiere contenedor aquí. -->
+
+  <div style="margin-top: 16px" *ngIf="result">
+    <h4>OCR Result (JSON)</h4>
+    <pre>{{ result | json }}</pre>
+  </div>
+
+  <div style="margin-top: 16px; color: #b00020" *ngIf="error">
+    <strong>Error:</strong> {{ error }}
+  </div>
+</div>

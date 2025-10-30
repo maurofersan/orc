@@ -1,0 +1,65 @@
+html, body { height:100%; margin:0; padding:0; }
+
+.finger_selection  .container{
+
+    padding: 10px;
+
+}
+
+.app_ui_titlebar {
+    padding: 15px 5px 15px 5px;
+    margin-bottom: 15px;
+    background: #00409E !important;
+    color: white;
+}
+
+.app_ui_titlebar .app_ui_title,.app_ui_titlebar .app_ui_options{
+     float: left;
+     width: 50%;
+ }
+
+.app_ui_titlebar .app_ui_options {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.app_ui_splash_logo img {
+    width: 100%;
+    padding: 15px;
+}
+
+.app_combination_label {
+    text-align: center;
+}
+
+.app_combination_label span {
+    font-size: 20px;
+}
+
+.app_finger_selection_container {
+    justify-content: center;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.flex-container .label {
+  flex: 1 0 auto;
+}
+
+.flex-container .item {
+  flex: 1 0 auto;
+  text-align: right;
+}
+
+.flex-container .item input[type="checkbox"] {
+    position: relative;
+    top: 2px;
+}
+
+.flex-item {
+    padding: 5px;
+}
