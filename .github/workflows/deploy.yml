@@ -34,6 +34,14 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Configure IDENTY registry
+        run: |
+          echo "@identy:registry=https://identy.jfrog.io/identy/api/npm/identy-npm/" >> .npmrc
+          echo "@tensorflow:registry=https://identy.jfrog.io/identy/api/npm/identy-npm/" >> .npmrc
+          echo "//identy.jfrog.io/identy/api/npm/identy-npm/:_authToken=${{ secrets.IDENTY_NPM_TOKEN }}" >> .npmrc
+          echo "//identy.jfrog.io/identy/api/npm/identy-npm/:always-auth=true" >> .npmrc
+          echo "registry=https://registry.npmjs.org/" >> .npmrc
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -49,7 +57,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
-          path: "./dist"
+          path: "./dist/OCRDemoApp"
 
       - name: Deploy to GitHub Pages
         id: deployment
