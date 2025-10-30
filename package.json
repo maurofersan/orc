@@ -9,7 +9,7 @@
     "start:prod": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng serve --configuration=production  --no-live-reload",
     "build:prod": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --configuration=production",
     "build:prod-base": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --configuration=production --base-href=/ocr/ --deploy-url=/ocr/",
-    "build": "ng build --configuration production --base-href /orc/",
+    "build": "ng build --configuration production --base-href /orc/ && cp dist/OCRDemoApp/index.html dist/OCRDemoApp/404.html",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "bundle-report": "webpack-bundle-analyzer dist/OCRDemoApp/stats.json",
