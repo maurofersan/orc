@@ -32,6 +32,7 @@ try {
   // Provide only the LICENSE here. If you use Secure Decryption on server,
   // pass your IDENTY Web Server public key endpoint instead.
   CardOcrSDK.preInitialize(license).catch((err) => {
+    console.log("error in preInitialize()::", err);
     if (err.code == 506) {
       alert(err.message);
     }

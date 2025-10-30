@@ -16,7 +16,7 @@ import {
 @Component({
   selector: "app-sdk-run",
   templateUrl: "./sdk-run.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SdkRunComponent implements OnDestroy {
   sdk: CardOcrSDK | null;
@@ -64,28 +64,66 @@ export class SdkRunComponent implements OnDestroy {
 
     // Flujo secuencial: initialize -> capture, sin runOutsideAngular
     const options: SdkOptionsType = {
+      // detectionModes: [CardDetectionMode.FRONT, CardDetectionMode.BACK],
+      // cardtype: DocumentType.PERU_ID_CARD,
+      // // requiredTemplates: [Template.JPEG_95],
+      // barcodeCheck: true,
+      // transaction: { type: TransactionMode.CAPTURE },
+      // selectAsFile: false, // camera
+      // allowClose: false,
+      // debug: true,
+      // skipSupportCheck: false,
+      // showOrientationDialog: false,
+      // useFlash: false,
+      // silentInit: false,
+      //
+      // detectionModes: [CardDetectionMode.FRONT, CardDetectionMode.BACK],
+      // cardtype: DocumentType.PERU_ID_CARD,
+      // barcodeCheck: true,
+      // allowClose: false,
+      // showOrientationDialog: false,
+      // useFlash: false,
+      // transaction: { type: TransactionMode.CAPTURE },
+      // debug: true,
+      //
       detectionModes: [CardDetectionMode.FRONT, CardDetectionMode.BACK],
       cardtype: DocumentType.PERU_ID_CARD,
-      // requiredTemplates: [Template.JPEG_95],
-      barcodeCheck: true,
       transaction: { type: TransactionMode.CAPTURE },
-      selectAsFile: false, // camera
       allowClose: true,
+      showOrientationDialog: true,
+      useFlash: false,
       debug: false,
-      skipSupportCheck: true,
-      showOrientationDialog: false,
-      useFlash: true,
-      silentInit: true,
+      skipSupportCheck: false,
     };
 
     const sdk = new CardOcrSDK(options);
+    console.log("sdk::", sdk);
     this.sdk = sdk;
 
+    // Use vendor-recommended onInit -> capture flow
+    sdk.onInit = () => {
+      sdk
+        .capture()
+        .then((json: any) => {
+          console.log("json::result::", json);
+          this.result = json;
+          this.disabled = false;
+          this.isCapturing = false;
+        })
+        .catch((err) => {
+          console.log("error in capture()", err);
+          this.error =
+            err?.getLocalizedString?.() || err?.message || "Capture error";
+          this.disabled = false;
+          this.isCapturing = false;
+        });
+    };
+
     try {
-      await sdk.initialize();
-      const json = await sdk.capture();
-      this.result = json;
+      const initResult = await sdk.initialize();
+      console.log("Ok in initialize()::", initResult);
     } catch (err: any) {
+      console.log("error in initialize()::");
       this.error =
         err?.getLocalizedString?.() || err?.message || "Capture error";
     } finally {
