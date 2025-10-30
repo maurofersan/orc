@@ -31,12 +31,14 @@ try {
   // For local browser capture (no server decryption), URL is not required.
   // Provide only the LICENSE here. If you use Secure Decryption on server,
   // pass your IDENTY Web Server public key endpoint instead.
-  CardOcrSDK.preInitialize(license).catch((err) => {
-    console.log("error in preInitialize()::", err);
-    if (err.code == 506) {
-      alert(err.message);
-    }
-  });
+  CardOcrSDK.preInitialize(license)
+    .then(([a, b]) => console.log("Ok in preInitialize()::", b))
+    .catch((err) => {
+      console.log("error in preInitialize()::", err);
+      if (err.code == 506) {
+        alert(err.message);
+      }
+    });
 } catch (error) {
   console.log(error);
 }
