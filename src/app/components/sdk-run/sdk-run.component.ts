@@ -45,23 +45,12 @@ export class SdkRunComponent implements OnDestroy {
     this.result = null;
     this.error = "";
     this.isCapturing = true;
-    // Try to detect blocked permission first
-    try {
-      // @ts-ignore
-      if (navigator.permissions && navigator.permissions.query) {
-        // @ts-ignore
-        const status = await navigator.permissions.query({
-          name: "camera" as any,
-        });
-        if (status.state === "denied") {
-          this.error =
-            "Camera permission is blocked. Enable it in site settings and retry.";
-          this.disabled = false;
-          return;
-        }
-      }
-    } catch {}
-
+    const allowed = await this.ensureCameraPermission();
+    if (!allowed) {
+      this.disabled = false;
+      this.isCapturing = false;
+      return;
+    }
     // Flujo secuencial: initialize -> capture, sin runOutsideAngular
     const options: SdkOptionsType = {
       // detectionModes: [CardDetectionMode.FRONT, CardDetectionMode.BACK],
