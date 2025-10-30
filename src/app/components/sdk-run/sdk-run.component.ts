@@ -156,4 +156,30 @@ export class SdkRunComponent implements OnDestroy {
       this.isCapturing = false;
     }
   }
+
+  private async ensureCameraPermission(): Promise<boolean> {
+    try {
+      // Aviso temprano si está bloqueada explícitamente
+      if (navigator.permissions && (navigator.permissions as any).query) {
+        // @ts-ignore
+        const status = await navigator.permissions.query({
+          name: "camera" as any,
+        });
+        if (status.state === "denied") {
+          alert(
+            "⚠️ La cámara está bloqueada. Habilítala en el candado del navegador → Camera → Allow."
+          );
+          return false;
+        }
+      }
+      // Fuerza el prompt de permisos y calienta el dispositivo
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.getTracks().forEach((t) => t.stop());
+      return true;
+    } catch (e) {
+      console.log("ensureCameraPermission::error", e);
+      alert("⚠️ No se pudo abrir la cámara. Permite el acceso y reintenta.");
+      return false;
+    }
+  }
 }
