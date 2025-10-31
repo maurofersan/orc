@@ -134,13 +134,21 @@ export class SdkRunComponent implements OnDestroy {
     };
 
     try {
+      console.log("About to call sdk.initialize()...");
       const initResult = await sdk.initialize();
       console.log("Ok in initialize()::", initResult);
+      // onInit se llamará automáticamente cuando el SDK esté listo
     } catch (err: any) {
-      console.log("error in initialize()::");
+      console.error("error in initialize()::", err);
+      console.error("Error details:", {
+        name: err?.name,
+        message: err?.message,
+        stack: err?.stack,
+        code: err?.code,
+        getLocalizedString: err?.getLocalizedString?.(),
+      });
       this.error =
         err?.getLocalizedString?.() || err?.message || "Capture error";
-    } finally {
       this.disabled = false;
       this.isCapturing = false;
     }
