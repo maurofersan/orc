@@ -54,6 +54,20 @@ jobs:
 
       - name: Build project (GitHub Pages)
         run: npm run build:gh
+        continue-on-error: false
+
+      - name: Verify build output
+        run: |
+          if [ ! -d "dist/OCRDemoApp" ]; then
+            echo "Error: dist/OCRDemoApp directory does not exist"
+            exit 1
+          fi
+          if [ ! -f "dist/OCRDemoApp/index.html" ]; then
+            echo "Error: dist/OCRDemoApp/index.html does not exist"
+            exit 1
+          fi
+          echo "Build verification passed"
+          ls -la dist/OCRDemoApp/ | head -10
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
